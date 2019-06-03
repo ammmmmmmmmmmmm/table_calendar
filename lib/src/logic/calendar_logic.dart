@@ -79,7 +79,6 @@ class CalendarLogic {
     final formats = _availableCalendarFormats.keys.toList();
     int id = formats.indexOf(_calendarFormat.value);
     id = (id + 1) % formats.length;
-
     return formats[id];
   }
 
@@ -98,10 +97,12 @@ class CalendarLogic {
     } else {
       id = _clamp(0, formats.length - 1, id - 1);
     }
+    print("=============| swipeCalendarFormat = ${formats[id]} |============");
     _calendarFormat.value = formats[id];
   }
 
-  bool setSelectedDay(DateTime value, {bool isAnimated = true, bool isProgrammatic = false}) {
+  bool setSelectedDay(DateTime value,
+      {bool isAnimated = true, bool isProgrammatic = false}) {
     if (Utils.isSameDay(value, _selectedDay)) {
       return false;
     }
@@ -164,7 +165,8 @@ class CalendarLogic {
       _focusedDay = Utils.previousWeek(_focusedDay);
     } else {
       // in bottom row OR not visible
-      _focusedDay = Utils.previousWeek(_focusedDay.subtract(const Duration(days: 7)));
+      _focusedDay =
+          Utils.previousWeek(_focusedDay.subtract(const Duration(days: 7)));
     }
   }
 
@@ -228,7 +230,9 @@ class CalendarLogic {
 
   List<DateTime> _daysInMonth(DateTime month) {
     final first = Utils.firstDayOfMonth(month);
-    final daysBefore = _startingDayOfWeek == StartingDayOfWeek.sunday ? first.weekday % 7 : first.weekday - 1;
+    final daysBefore = _startingDayOfWeek == StartingDayOfWeek.sunday
+        ? first.weekday % 7
+        : first.weekday - 1;
     var firstToDisplay = first.subtract(Duration(days: daysBefore));
 
     if (firstToDisplay.hour == 23) {
@@ -272,14 +276,18 @@ class CalendarLogic {
   DateTime _firstDayOfWeek(DateTime day) {
     day = DateTime.utc(day.year, day.month, day.day, 12);
 
-    final decreaseNum = _startingDayOfWeek == StartingDayOfWeek.sunday ? day.weekday % 7 : day.weekday - 1;
+    final decreaseNum = _startingDayOfWeek == StartingDayOfWeek.sunday
+        ? day.weekday % 7
+        : day.weekday - 1;
     return day.subtract(Duration(days: decreaseNum));
   }
 
   DateTime _lastDayOfWeek(DateTime day) {
     day = DateTime.utc(day.year, day.month, day.day, 12);
 
-    final increaseNum = _startingDayOfWeek == StartingDayOfWeek.sunday ? day.weekday % 7 : day.weekday - 1;
+    final increaseNum = _startingDayOfWeek == StartingDayOfWeek.sunday
+        ? day.weekday % 7
+        : day.weekday - 1;
     return day.add(Duration(days: 7 - increaseNum));
   }
 
